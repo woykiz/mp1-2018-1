@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <cmath>
 
 using namespace std;
@@ -7,9 +7,9 @@ using namespace std;
 class TRational
 {
 private:
-	bool e; // Существует ли дробь
-	int p; //Числитель
-	int q; //Знаменатель
+	bool exist; // РЎСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё РґСЂРѕР±СЊ
+	int p; //Р§РёСЃР»РёС‚РµР»СЊ
+	int q; //Р—РЅР°РјРµРЅР°С‚РµР»СЊ
 	int NOD(int a, int b);
 	void MakeFinal()
 	{
@@ -21,52 +21,44 @@ private:
 		}
 	}
 
-public:
-	TRational(int a, int b);
-
 	TRational Add(TRational t);
 	TRational Subtract(TRational t);
 	TRational Multiply(TRational t);
 	TRational Devide(TRational t);
 
-	bool Exist();
+
+public:
+	TRational(int a, int b);
+
+	static int cas;
+	bool IsExist();
 	void Print();
 
-	int GetP()
+	TRational& operator=(const TRational& t)
 	{
-		return p;
-	}
-	int GetQ()
-	{
-		return q;
-	}
-
-	TRational& operator=(TRational& t)
-	{
-		p = t.GetP();
-		q = t.GetQ();
-
+		p = t.p;
+		q = t.q;
 		return *this;
 	}
-	TRational& operator+=(TRational& t)
+	TRational& operator+=(const TRational& t)
 	{
 		Add(t);
 
 		return *this;
 	}
-	TRational& operator-=(TRational& t)
+	TRational& operator-=(const TRational& t)
 	{
 		Subtract(t);
 
 		return *this;
 	}
-	TRational& operator*=(TRational& t)
+	TRational& operator*=(const TRational& t)
 	{
 		Multiply(t);
 
 		return *this;
 	}
-	TRational& operator/=(TRational& t)
+	TRational& operator/=(const TRational& t)
 	{
 		Devide(t);
 
@@ -74,25 +66,29 @@ public:
 	}
 
 
-	TRational& operator+(TRational& t)
+	TRational operator+(const TRational& t)
 	{
-		return *(new TRational(p*t.GetQ() + q*t.GetP(), q*t.GetQ()));
+		TRational a(p*t.q + q*t.p, q*t.q);
+		return a;
 	}
 
-	TRational& operator-(TRational& t)
+	TRational operator-(const TRational& t)
 	{
-		return *(new TRational(p*t.GetQ() - q*t.GetP(), q*t.GetQ()));
+		TRational a(p*t.q - q * t.p, q*q);
+		return a;
 	}
 
-	TRational& operator*(TRational& t)
+	TRational operator*(const TRational& t)
 	{
 
-		return *(new TRational(p*t.GetP(), q*t.GetQ()));
+		TRational a(p* t.p, q*t.q);
+		return a;
 	}
 
-	TRational& operator/(TRational& t)
+	TRational operator/(const TRational& t)
 	{
-		return *(new TRational(p*t.GetQ(), q*t.GetP()));
+		TRational a(p* t.q, q*t.p);
+		return a;
 	}
 };
 
@@ -101,14 +97,14 @@ TRational::TRational(int a, int b)
 	p = a;
 	if (b != 0)
 	{
-		e = true;
+		exist = true;
 		q = b;
 		if (q < 0) { q *= (-1); p *= (-1); }
 		MakeFinal();
 	}
 	else
 	{
-		e = false;
+		exist = false;
 	}
 }
 
@@ -124,15 +120,15 @@ int TRational::NOD(int a, int b)
 	return nod;
 }
 
-bool TRational::Exist()
+bool TRational::IsExist()
 {
-	return e;
+	return exit;
 }
 
 TRational TRational::Add(TRational t)
 {
-	p = p*t.GetQ() + t.GetP()*q;
-	q = q*t.GetQ();
+	p = p*t.q + t.p*q;
+	q = q*t.q;
 	MakeFinal();
 
 	TRational a(p, q);
@@ -141,8 +137,8 @@ TRational TRational::Add(TRational t)
 
 TRational TRational::Subtract(TRational t)
 {
-	p = p*t.GetQ() - t.GetP()*q;
-	q = q*t.GetQ();
+	p = p*t.q - t.p*q;
+	q = q*t.q;
 	MakeFinal();
 
 	TRational a(p, q);
@@ -151,8 +147,8 @@ TRational TRational::Subtract(TRational t)
 
 TRational TRational::Multiply(TRational t)
 {
-	p = p*t.GetP();
-	q = q*t.GetQ();
+	p = p*t.p;
+	q = q*t.q;
 	MakeFinal();
 
 	TRational a(p, q);
@@ -161,8 +157,8 @@ TRational TRational::Multiply(TRational t)
 
 TRational TRational::Devide(TRational t)
 {
-	p = p*t.GetQ();
-	q = q*t.GetP();
+	p = p*t.q;
+	q = q*t.p;
 	MakeFinal();
 
 	TRational a(p, q);
@@ -177,16 +173,14 @@ void TRational::Print()
 
 void main()
 {
-	TRational a(5, 3);
-	TRational b(20, 5);
-	if (a.Exist() && b.Exist())
+	TRational a(5, -3);
+	TRational b(20, -8);
+	if (a.IsExist() && b.IsExist())
 	{
 		(a + b).Print(); cout << "\n";
 		(a - b).Print(); cout << "\n";
 		(a * b).Print(); cout << "\n";
 		(a / b).Print(); cout << "\n";
-		/*TRational c=a.Add(b);
-		a += b;*/
 	}
 	system("pause");
 }
