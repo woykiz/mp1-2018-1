@@ -21,16 +21,15 @@ private:
 		}
 	}
 
-	TRational Add(TRational t);
-	TRational Subtract(TRational t);
-	TRational Multiply(TRational t);
-	TRational Devide(TRational t);
+	TRational Add(const TRational t);
+	TRational Subtract(const TRational t);
+	TRational Multiply(const TRational t);
+	TRational Devide(const TRational t);
 
 
 public:
 	TRational(int a, int b);
 
-	static int cas;
 	bool IsExist();
 	void Print();
 
@@ -122,10 +121,10 @@ int TRational::NOD(int a, int b)
 
 bool TRational::IsExist()
 {
-	return exit;
+	return exist;
 }
 
-TRational TRational::Add(TRational t)
+TRational TRational::Add(const TRational t)
 {
 	p = p*t.q + t.p*q;
 	q = q*t.q;
@@ -135,7 +134,7 @@ TRational TRational::Add(TRational t)
 	return a;
 }
 
-TRational TRational::Subtract(TRational t)
+TRational TRational::Subtract(const TRational t)
 {
 	p = p*t.q - t.p*q;
 	q = q*t.q;
@@ -145,7 +144,7 @@ TRational TRational::Subtract(TRational t)
 	return a;
 }
 
-TRational TRational::Multiply(TRational t)
+TRational TRational::Multiply(const TRational t)
 {
 	p = p*t.p;
 	q = q*t.q;
@@ -155,7 +154,7 @@ TRational TRational::Multiply(TRational t)
 	return a;
 }
 
-TRational TRational::Devide(TRational t)
+TRational TRational::Devide(const TRational t)
 {
 	p = p*t.q;
 	q = q*t.p;
