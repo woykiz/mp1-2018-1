@@ -21,10 +21,10 @@ private:
 		}
 	}
 
-	TRational Add(const TRational t);
-	TRational Subtract(const TRational t);
-	TRational Multiply(const TRational t);
-	TRational Devide(const TRational t);
+	TRational Add(const TRational& t);
+	TRational Subtract(const TRational& t);
+	TRational Multiply(const TRational& t);
+	TRational Devide(const TRational& t);
 
 
 public:
@@ -124,7 +124,7 @@ bool TRational::IsExist()
 	return exist;
 }
 
-TRational TRational::Add(const TRational t)
+TRational TRational::Add(const TRational& t)
 {
 	p = p*t.q + t.p*q;
 	q = q*t.q;
@@ -134,7 +134,7 @@ TRational TRational::Add(const TRational t)
 	return a;
 }
 
-TRational TRational::Subtract(const TRational t)
+TRational TRational::Subtract(const TRational& t)
 {
 	p = p*t.q - t.p*q;
 	q = q*t.q;
@@ -144,7 +144,7 @@ TRational TRational::Subtract(const TRational t)
 	return a;
 }
 
-TRational TRational::Multiply(const TRational t)
+TRational TRational::Multiply(const TRational& t)
 {
 	p = p*t.p;
 	q = q*t.q;
@@ -154,7 +154,7 @@ TRational TRational::Multiply(const TRational t)
 	return a;
 }
 
-TRational TRational::Devide(const TRational t)
+TRational TRational::Devide(const TRational& t)
 {
 	p = p*t.q;
 	q = q*t.p;
