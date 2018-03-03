@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <cmath>
 
 using namespace std;
@@ -13,30 +13,40 @@ public:
 	~Polynom();
 
 	int GetDegree();
-	double Count(double x);
+	double Calculate(double x);
 	Polynom Derivative();
 
 	Polynom& operator=(const Polynom& p)
 	{
-		delete [] koef;
-		deg = p.deg;
-		koef = new double[p.deg+1];
-		for (int i = 0; i < deg + 1; i++)
+		if (this == &p)
 		{
-			koef[i] = p.koef[i];
+			return *this;
 		}
-		return *this;
+		else
+		{
+			if (deg != p.deg)
+			{
+				delete[] koef;
+				deg = p.deg;
+				koef = new double[p.deg + 1];
+			}
+			for (int i = 0; i < deg + 1; i++)
+			{
+				koef[i] = p.koef[i];
+			}
+			return *this;
+		}
 	}
 
-	double operator[](const int i)
+	double operator[](int i)
 	{
 		if (i <= deg)
 			return koef[i];
 		else
-			return NULL;
+			return numeric_limits<double>::quiet_NaN();
 	}
 
-	void ToString();
+	void ToConsole();
 };
 
 Polynom::Polynom(int n, double a[])
@@ -60,7 +70,7 @@ int Polynom::GetDegree()
 	return deg;
 }
 
-double Polynom::Count(double x)
+double Polynom::Calculate(double x)
 {
 	double s = 0;
 	for (int i = 0; i < deg+1; i++)
@@ -80,34 +90,38 @@ Polynom Polynom::Derivative()
 		s[i] = (koef[i] * (deg - i));
 	}
 
-	//Òóò íàâåðíîå óòå÷êà ïàìÿòè, íî âñå äðóãèå âàðèàíòû íå ðàáîòàþò
+	//Ð¢ÑƒÑ‚ Ð½Ð°Ð²ÐµÑ€Ð½Ð¾Ðµ ÑƒÑ‚ÐµÑ‡ÐºÐ° Ð¿Ð°Ð¼ÑÑ‚Ð¸, Ð½Ð¾ Ð²ÑÐµ Ð´Ñ€ÑƒÐ³Ð¸Ðµ Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚Ñ‹ Ð½Ðµ Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÑŽÑ‚
 	Polynom* d = new Polynom(deg-1,s);
 	delete[] s;
 	return *d;
 }
 
-void Polynom::ToString()
+void Polynom::ToConsole()
 {
-	cout << koef[0] << "(x^"<<deg << ")";
-	for (int i = 1; i < deg; i++)
+	if (deg > 0)
 	{
-		cout <<" + "<< koef[i] << "(x^" << deg-i<<")";
+		cout << koef[0] << "(x^" << deg << ")";
+		for (int i = 1; i < deg; i++)
+		{
+			cout << " + " << koef[i] << "(x^" << deg - i << ")";
+		}
+		cout << " + ";
 	}
-	cout << " + " << koef[deg];
+	cout << koef[deg];
 }
 
 void main()
 {
 	double a[] = { 1,3,1 };
 	Polynom p(2,a);
-	cout << p.Count(-1);
+	cout << p.Calculate(-1);
 	cout << "\n";
-	p.ToString();
+	p.ToConsole();
 	cout << "\n";
-	double b[] = { 1,3,-4,8 };
-	Polynom p1(3, b);
+	double b[] = { 1,3};
+	Polynom p1(1, b);
 	p = p1.Derivative();
-	p.ToString();
+	p.ToConsole();
 	cout << "\n";
 	system("pause");
 }
