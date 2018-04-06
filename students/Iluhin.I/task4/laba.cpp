@@ -31,17 +31,25 @@ public:
 		date = d;
 		steps = s;
 	}
-	void setSteps(int a)
-	{
-		steps = a;
-	}
 	int getSteps()
 	{
 		return steps;
 	}
-	void setDate(Date d)
+	int getStartHour()
 	{
-		date = d;
+		return startHour;
+	}
+	int getStartMinute()
+	{
+		return startMinute;
+	}
+	int getEndHour()
+	{
+		return endHour;
+	}
+	int getEndMinute()
+	{
+		return endMinute;
 	}
 	Date getDate()
 	{
@@ -70,7 +78,12 @@ public:
 	}
 	void setStartDate(Date d)
 	{
-		startCount.setDate(d);
+		SingleCount k(d, 0, 0, 0, 0, 0);
+		if (Counts.size() > 0)
+			Counts[0] = k;
+		else
+			Counts.push_back(k);
+
 	}
 	Date getStartDate()
 	{
@@ -144,31 +157,33 @@ public:
 	void saveFile()
 	{
 		ofstream file("Pedometr.txt");
-		
-
+		for (int i = 0; i < Counts.size(); i++)
+		{
+			Date t = Counts[i].getDate();
+			file << Counts[i].getSteps() << '$' << Counts[i].getStartHour() << '$' << Counts[i].getStartMinute() << '$' << Counts[i].getEndHour() << '$' << Counts[i].getEndMinute() << endl;
+		}
 	}
-	void openFile()
+	/*void openFile()
 	{
 		ifstream file("Pedometr.txt");
-		
 	}
+	*/
+	};
 
-};
-
-void main()
-{
-	Pedometr p;
-	Date d;
-	d.day = 3;
-	d.month = 4;
-	d.year = 2010;
-	p.AddCount(d, 4, 5, 10, 12, 124);
-	p.AddCount(d, 4, 15, 8, 12, 2344);
-	for (int i = 0; i < 2; i++)
-		cout << p[i].getSteps();
-	p.saveFile();
-	p.openFile();
-	for (int i = 0; i < 2; i++)
-		cout << p[i].getSteps();
-	system("pause");
-}
+	void main()
+	{
+		Pedometr p;
+		Date d;
+		d.day = 3;
+		d.month = 4;
+		d.year = 2010;
+		p.AddCount(d, 4, 5, 10, 12, 124);
+		p.AddCount(d, 4, 15, 8, 12, 2344);
+		for (int i = 0; i < 2; i++)
+			cout << p[i].getSteps();
+		p.saveFile();
+		//p.openFile();
+		for (int i = 0; i < 2; i++)
+			cout << p[i].getSteps();
+		system("pause");
+	}
