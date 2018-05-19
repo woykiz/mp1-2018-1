@@ -273,51 +273,6 @@ int main()
 		PC.RegisterUser(tmp);
 	}
 	ATM atm(&PC);
-	bool isATMEnd = false;
-		while (!isATMEnd)
-		{
-			int cardNumber;
-			cout << "Input your card('your cardNumber')" << endl;
-			cin >> cardNumber;
-			bool comRes = atm.LoadCard(cardNumber);
-			HandleCommand(comRes);
-			if (comRes)
-			{
-				int errorCounter = 0;
-				cout << "Input your pincode" << endl;
-				int pinValue;
-				cin >> pinValue;
-				while (errorCounter != 3 && !CheckPinCode(pinValue))
-				{
-					cout << "Input your pincode" << endl;
-					cin >> pinValue;
-					errorCounter++;
-				}
-				if (errorCounter == 3)
-				{
-					HandleCommand(false);
-					atm.BlockUser(cardNumber);
-				}
-				else
-				{
-					cout << "You login succesfully" << endl;
-					bool sessionEnd = false;
-					while (!sessionEnd)
-					{
-						cout << "Type one the following commands: \n";
-						cout << "1 - get money\n2 - LoadMoney\n3 - FindUser\n4 - PrintUserInfo\n5 - return money";
-						int command = -1;
-						cin >> command;
-						switch (command)
-						{
-						case 1:
-							HandleCommand(atm.WithDrawMoney(value));
-							break;
-						}
-					}
-				}
-			}
-		}
 	system("pause");
 	return 0;
 }
