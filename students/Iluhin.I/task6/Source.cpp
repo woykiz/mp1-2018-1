@@ -97,7 +97,7 @@ public:
 			zmey[0].x += dif.x;
 			zmey[0].y += dif.y;
 
-			Sleep(500);
+			Sleep(350);
 		}
 		//Clear();
 		cout << "\n\tGAME OVER";
